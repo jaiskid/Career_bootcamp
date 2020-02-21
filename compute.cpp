@@ -8,10 +8,10 @@ int main(){
 		ll int n;
 	cin>>n;
 	if(n%2==0){
-	cout<<n/2;
+	cout<<n/2<<endl;
 	}
 	else{
-	cout<<(n+1)/2*(-1);
+	cout<<(n+1)/2*(-1)<<endl;
 	}
 	}
 	

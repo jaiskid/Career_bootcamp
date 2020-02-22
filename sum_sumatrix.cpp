@@ -27,6 +27,12 @@ int submatrixSum(int mat[100][100],int m,int n,int p,int q,int r,int s ){
     if(p-1>=0&&q-1>=0){
         total+=sum[p-1][q-1];
     }
+    for(int i=0;i<n;i++){
+        for(int j=0;j<m;j++){
+            cout<<sum[i][j]<<" ";
+        }
+        cout<<endl;
+    }
     return total;
 }
 int main() {
@@ -41,5 +47,6 @@ int main() {
     int p,q,r,s;
      cin>>p>>q>>r>>s;
      cout<<submatrixSum(mat,n,m,p,q,r,s);
+
 
 }

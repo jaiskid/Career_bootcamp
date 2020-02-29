@@ -4,7 +4,7 @@ void multiply(int *a,int &n,int no){
 	int carry=0;
 	for(int i=0;i<n;i++){
 	int product=a[i]*no+carry;
-	a[i]=product%10;
+	a[i]=productp%10;
 	carry=product/10;
 	}
 	while(carry){

@@ -9,7 +9,7 @@ string searchIn [] = {
 void keypad(string s,string ans){
 	if(s.size()==0){
 	for(string ss: searchIn){
-	if(ss.find(ans)){
+	if(ss.contains(ans)){
 	cout<<ss<<endl;
 		}
 	}

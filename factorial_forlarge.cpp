@@ -27,6 +27,7 @@ void big_factorial(int number){
 	cout<<endl;
 }
 int main(){
+	
 int n;
 cin>>n;
 	big_factorial(n);

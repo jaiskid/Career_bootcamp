@@ -1,4 +1,5 @@
 //good subarrays
+
 #include<iostream>
 #include<cstring>
 #define ll long long 

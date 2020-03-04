@@ -25,5 +25,5 @@ void keypad(string s,string ans){
 int main(){
 	string s;
 	cin>>s;
-	keypad(s," ");
+	keypad(s," ");mart
 }

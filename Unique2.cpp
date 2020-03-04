@@ -12,7 +12,7 @@ void uniqueNumber(int *arr,int n){
 	break;
 	}
 	pos++;
-	temp>>1;
+	temp>>=1;
 	}
 	int mask=(1<<pos);
 	int firstnumber=0;

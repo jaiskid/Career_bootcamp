@@ -40,7 +40,6 @@ while(p <= n)
 {
 tmp += n / p;
 p *= k;
-//cout<<tmp<<" ";
 }
 ans = min(ans, tmp);
 }

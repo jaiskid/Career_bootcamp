@@ -6,11 +6,11 @@ bool isvalid(long stalls[],int n,int s,int current_ans){
 	int currently_alloted=stalls[0];
 	for(int i=1;i<n;i++){
 	if(stalls[i]-currently_alloted>=current_ans){
-	cows++;
+	cows++,currently_alloted=stalls[i];;
 	if(cows==s)
 	return 1;
 	}
-	currently_alloted=stalls[i];
+	
 	}
 	return 0;
 }
@@ -32,9 +32,9 @@ long minDist(long stalls[],int n,int k){
 }
 
 int main(){
-	int n;
+	long  long int n;
 	cin>>n;
-	int k;
+	long long int k;
 	cin>>k;
 	long int stalls[100005];
 	for(int i=0;i<n;i++){

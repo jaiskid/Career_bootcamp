@@ -1,20 +1,4 @@
-#include <iostream>
-#include <vector>
-#include <algorithm>
-#include <cstring>
-#include <map>
-#include <set>
-#include <unordered_map>
-#include <queue>
-#include <stack>
-#include <cmath>
-#include <functional>
-#include <deque>
-#include <bitset>
-#include <climits>
-#include <cstdio>
-#include <list>
-#include <iomanip>
+#include<bits/stdc++.h>
 using namespace std;
 
 #define ll long long int
@@ -33,21 +17,12 @@ using namespace std;
 #define PNF1(a,n,m) for(int i=1;i<=n;i++){for(int j=1;j<=m;j++){cout<<a[i][j]<<' ';}cout<<endl;}cout<<endl;
 #define AS 200001
 #define mod 1000000007
-ll n;
-vector<int>nums;
-int deleteAndEarn(vector<int>&nums) {
-	vector<int>vals(10001);
-	for (const auto& num : nums) {
-		vals[num] += num;
+vector<int> countBits(int num) {
+	vector<int>ans;
+	for (int i = 0; i <= num; i++) {
+		ans.pb(__builtin_popcount(i));
 	}
-	int val_i = vals[0], val_i_1 = 0, val_i_2 = 0;
-	for (int i = 1; i < n; ++i) {
-		val_i_2 = val_i_1;
-		val_i_1 = val_i;
-		val_i = max(vals[i] + val_i_2, val_i_1);
-	}
-
-	return val_i;
+	return ans;
 }
 int main() {
 	fastIO
@@ -55,8 +30,11 @@ int main() {
 	freopen("input.txt", "r", stdin);
 	freopen("output.txt", "w", stdout);
 #endif
+	int n;
 	cin >> n;
-	nums.resize(n);
-	F(nums, n);
-	cout << deleteAndEarn(nums);
+	vector<int>num;
+	num = countBits(n);
+	for (int i = 0; i < num.size(); i++) {
+		cout << num[i] << " ";
+	}
 }

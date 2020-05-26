@@ -33,21 +33,38 @@ using namespace std;
 #define PNF1(a,n,m) for(int i=1;i<=n;i++){for(int j=1;j<=m;j++){cout<<a[i][j]<<' ';}cout<<endl;}cout<<endl;
 #define AS 200001
 #define mod 1000000007
-ll n;
-vector<int>nums;
-int deleteAndEarn(vector<int>&nums) {
-	vector<int>vals(10001);
-	for (const auto& num : nums) {
-		vals[num] += num;
-	}
-	int val_i = vals[0], val_i_1 = 0, val_i_2 = 0;
-	for (int i = 1; i < n; ++i) {
-		val_i_2 = val_i_1;
-		val_i_1 = val_i;
-		val_i = max(vals[i] + val_i_2, val_i_1);
-	}
+double knightProbability(int N, int K, int sr, int sc) {
+	double dp[N][N];
+	int dr[] = {2, 2, 1, 1, -1, -1, -2, -2};
+	int dc[] = {1, -1, 2, -2, 2, -2, 1, -1};
+	dp[sr][sc] = 1;
+	for (; K > 0; K--) {
+		double dp2[N][N];
+		for (int r = 0; r < N; r++) {
+			for (int c = 0; c < N; c++) {
+				for (int k = 0; k < 8; k++) {
+					int cr = r + dr[k];
+					int cc = c + dr[k];
+					if (0 <= cr and cr < N and 0 <= cc and cc < N) {
+						dp2[cr][cc] += dp[r][c] / 8.0;
+					}
+				}
 
-	return val_i;
+			}
+		}
+		for (int i = 0; i < N; i++) {
+			for (int j = 0; j < N; j++) {
+				dp[i][j] = dp2[i][j];
+			}
+		}
+	}
+	double ans = 0.0;
+	for (int row = 0; row < N; row++) {
+		for (int x = 0; x < row; x++) {
+			ans += x;
+		}
+	}
+	return ans;
 }
 int main() {
 	fastIO
@@ -55,8 +72,4 @@ int main() {
 	freopen("input.txt", "r", stdin);
 	freopen("output.txt", "w", stdout);
 #endif
-	cin >> n;
-	nums.resize(n);
-	F(nums, n);
-	cout << deleteAndEarn(nums);
 }

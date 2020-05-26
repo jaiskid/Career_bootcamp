@@ -33,21 +33,26 @@ using namespace std;
 #define PNF1(a,n,m) for(int i=1;i<=n;i++){for(int j=1;j<=m;j++){cout<<a[i][j]<<' ';}cout<<endl;}cout<<endl;
 #define AS 200001
 #define mod 1000000007
-ll n;
-vector<int>nums;
-int deleteAndEarn(vector<int>&nums) {
-	vector<int>vals(10001);
-	for (const auto& num : nums) {
-		vals[num] += num;
+int longestCommonSubsequence(string text1, string text2) {
+	int n = text1.size();
+	int m = text2.size();
+	int t[n + 1][m + 1];
+	for (int i = 0; i < n + 1; i++) {
+		for (int j = 0; j < m + 1; j++) {
+			if (i == 0 || j == 0)
+				t[i][j] = 0;
+		}
 	}
-	int val_i = vals[0], val_i_1 = 0, val_i_2 = 0;
-	for (int i = 1; i < n; ++i) {
-		val_i_2 = val_i_1;
-		val_i_1 = val_i;
-		val_i = max(vals[i] + val_i_2, val_i_1);
+	for (int i = 1; i < n + 1; i++) {
+		for (int j = 1; j < m + 1; j++) {
+			if (text1[i - 1] == text2[j - 1]) {
+				t[i][j] = 1 + t[i - 1][j - 1];
+			} else {
+				t[i][j] = max(t[i - 1][j], t[i][j - 1]);
+			}
+		}
 	}
-
-	return val_i;
+	return t[n][m];
 }
 int main() {
 	fastIO
@@ -55,8 +60,7 @@ int main() {
 	freopen("input.txt", "r", stdin);
 	freopen("output.txt", "w", stdout);
 #endif
-	cin >> n;
-	nums.resize(n);
-	F(nums, n);
-	cout << deleteAndEarn(nums);
+	string s, r;
+	cin >> s >> r;
+	cout << longestCommonSubsequence(s, r);
 }

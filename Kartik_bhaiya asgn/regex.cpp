@@ -33,21 +33,35 @@ using namespace std;
 #define PNF1(a,n,m) for(int i=1;i<=n;i++){for(int j=1;j<=m;j++){cout<<a[i][j]<<' ';}cout<<endl;}cout<<endl;
 #define AS 200001
 #define mod 1000000007
-ll n;
-vector<int>nums;
-int deleteAndEarn(vector<int>&nums) {
-	vector<int>vals(10001);
-	for (const auto& num : nums) {
-		vals[num] += num;
-	}
-	int val_i = vals[0], val_i_1 = 0, val_i_2 = 0;
-	for (int i = 1; i < n; ++i) {
-		val_i_2 = val_i_1;
-		val_i_1 = val_i;
-		val_i = max(vals[i] + val_i_2, val_i_1);
-	}
+bool isMatch(string s, string r) {
+	int n = s.size();
+	int m = r.size();
 
-	return val_i;
+	int lookup[n + 1][m + 1];
+	lookup[0][0] = true;
+	//deals with the pattern like *a or a*b* or a*b*c
+	for (int i = 2; i <m; i++) {
+		if (r[i - 1] == '*') {
+			lookup[0][i] = lookup[0][i - 2];
+		}
+	}
+	for (int i = 1; i <=n; i++) {
+		for (int j = 1; j <=m; j++) {
+			if (r[j - 1] == '.' || r[j - 1] == s[i - 1]) {
+				lookup[i][j] = lookup[i - 1][j - 1];
+			}
+			else if (r[j - 1] == '*') {
+				lookup[i][j] = lookup[i][j - 2];
+				if (r[j - 2] == '.' || r[j - 2] == s[i - 1]) {
+					lookup[i][j] = lookup[i][j] | lookup[i - 1][j];
+				}
+			}
+			else {
+				lookup[i][j] = false;
+			}
+		}
+	}
+	return lookup[n][m];
 }
 int main() {
 	fastIO
@@ -55,8 +69,8 @@ int main() {
 	freopen("input.txt", "r", stdin);
 	freopen("output.txt", "w", stdout);
 #endif
-	cin >> n;
-	nums.resize(n);
-	F(nums, n);
-	cout << deleteAndEarn(nums);
+	string s;
+	string r;
+	cin >> s >> r;
+	cout << isMatch(s, r);
 }

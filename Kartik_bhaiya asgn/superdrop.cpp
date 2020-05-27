@@ -33,38 +33,26 @@ using namespace std;
 #define PNF1(a,n,m) for(int i=1;i<=n;i++){for(int j=1;j<=m;j++){cout<<a[i][j]<<' ';}cout<<endl;}cout<<endl;
 #define AS 200001
 #define mod 1000000007
-double knightProbability(int N, int K, int sr, int sc) {
-	double dp[N][N];
-	int dr[] = {2, 2, 1, 1, -1, -1, -2, -2};
-	int dc[] = {1, -1, 2, -2, 2, -2, 1, -1};
-	dp[sr][sc] = 1;
-	for (; K > 0; K--) {
-		double dp2[N][N];
-		for (int r = 0; r < N; r++) {
-			for (int c = 0; c < N; c++) {
-				for (int k = 0; k < 8; k++) {
-					int cr = r + dr[k];
-					int cc = c + dr[k];
-					if (0 <= cr and cr < N and 0 <= cc and cc < N) {
-						dp2[cr][cc] += dp[r][c] / 8.0;
-					}
-				}
-
-			}
-		}
-		for (int i = 0; i < N; i++) {
-			for (int j = 0; j < N; j++) {
-				dp[i][j] = dp2[i][j];
-			}
-		}
+int t[100][10000];
+int superEggDrop(int K, int N) {
+	//k is egg
+	if (N == 0 || N == 1) {
+		return N;
 	}
-	double ans = 0.0;
-	for (int row = 0; row < N; row++) {
-		for (int x = 0; x < row; x++) {
-			ans += x;
-		}
+	if (K == 1)
+		return N;
+	if (K == 0)
+		return 0;
+	if (t[K][N] != -1) {
+		return t[K][N];
 	}
-	return ans;
+	int mn = INT_MAX;
+	for (int k = 1; k <= N; k++) {
+		int temp = 1 + max(superEggDrop(K - 1, k - 1), superEggDrop(K, N - k));
+		mn = min(temp, mn);
+	}
+	t[K][N] = mn;
+	return mn;
 }
 int main() {
 	fastIO
@@ -72,5 +60,8 @@ int main() {
 	freopen("input.txt", "r", stdin);
 	freopen("output.txt", "w", stdout);
 #endif
-	
+	memset(t,-1,sizeof t);
+	int e, f;
+	cin >> e >> f;
+	cout << superEggDrop(e, f);
 }

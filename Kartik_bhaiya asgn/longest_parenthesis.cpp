@@ -33,35 +33,22 @@ using namespace std;
 #define PNF1(a,n,m) for(int i=1;i<=n;i++){for(int j=1;j<=m;j++){cout<<a[i][j]<<' ';}cout<<endl;}cout<<endl;
 #define AS 200001
 #define mod 1000000007
-double knightProbability(int N, int K, int sr, int sc) {
-	double dp[N][N];
-	int dr[] = {2, 2, 1, 1, -1, -1, -2, -2};
-	int dc[] = {1, -1, 2, -2, 2, -2, 1, -1};
-	dp[sr][sc] = 1;
-	for (; K > 0; K--) {
-		double dp2[N][N];
-		for (int r = 0; r < N; r++) {
-			for (int c = 0; c < N; c++) {
-				for (int k = 0; k < 8; k++) {
-					int cr = r + dr[k];
-					int cc = c + dr[k];
-					if (0 <= cr and cr < N and 0 <= cc and cc < N) {
-						dp2[cr][cc] += dp[r][c] / 8.0;
-					}
-				}
-
-			}
+int longestparenthesis(string s) {
+	stack<int> stk;
+	stk.push(-1);
+	int ans = 0;
+	for (int i = 0; i < s.size(); i++) {
+		if (s[i] == '(') {
+			stk.push(i);
 		}
-		for (int i = 0; i < N; i++) {
-			for (int j = 0; j < N; j++) {
-				dp[i][j] = dp2[i][j];
+		else {
+			stk.pop();
+			if (stk.empty()) {
+				stk.push(i);
 			}
-		}
-	}
-	double ans = 0.0;
-	for (int row = 0; row < N; row++) {
-		for (int x = 0; x < row; x++) {
-			ans += x;
+			else {
+				ans = max(ans, i - stk.top());
+			}
 		}
 	}
 	return ans;
@@ -72,5 +59,7 @@ int main() {
 	freopen("input.txt", "r", stdin);
 	freopen("output.txt", "w", stdout);
 #endif
-	
+	string a;
+	cin >> a;
+	cout << longestparenthesis(a);
 }

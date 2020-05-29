@@ -1,4 +1,20 @@
-#include<bits/stdc++.h>
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <cstring>
+#include <map>
+#include <set>
+#include <unordered_map>
+#include <queue>
+#include <stack>
+#include <cmath>
+#include <functional>
+#include <deque>
+#include <bitset>
+#include <climits>
+#include <cstdio>
+#include <list>
+#include <iomanip>
 using namespace std;
 
 #define ll long long int
@@ -16,29 +32,23 @@ using namespace std;
 #define PNF(a,n,m) for(int i=0;i<n;i++){for(int j=0;j<m;j++){cout<<a[i][j]<<' ';}cout<<endl;}cout<<endl;
 #define PNF1(a,n,m) for(int i=1;i<=n;i++){for(int j=1;j<=m;j++){cout<<a[i][j]<<' ';}cout<<endl;}cout<<endl;
 #define AS 200001
-int largestAfterKnegation(vector<int>&A, int k) {
-	nth_element(A.begin(), A.begin() + k, A.end());
-	int remain = k;
-	for (int i = 0; i < k; i++) {
-		if (A[i] < 0) {
-			A[i] = - A[i];
-			--remain;
-		}
-	}
-	return accumulate(A.cbegin(), A.cend(), 0) - (remain % 2) * *min_element(A.cbegin(), A.cend()) * 2;
-}
-int largestAfterKnegations(vector<int>&A, int k) {
-	sort(A.begin(), A.end());
-	int remain = k;
-	for (int i = 0; i < k; i++) {
-		if (A[i] < 0) {
-			A[i] = -A[i];
-			--remain;
-		}
-	}
-	return accumulate(A.begin(), A.end(), 0) - (remain % 2) * *min_element(A.begin(), A.end()) * 2;
-}
 #define mod 1000000007
+int minKBitFlips(vector<int>& A, int k) {
+	int cur, res = 0, n = A.size();
+	for (int i = 0; i < n; i++) {
+		if (i >= k and A[i - k] > 1) {
+			cur--;
+			A[i - k] -= 2;
+		}
+		if (cur % 2 == A[i]) {
+			if (i + k > n) return -1;
+			A[i] += 2;
+			cur++;
+			res++;
+		}
+	}
+	return res;
+}
 int main() {
 	fastIO
 #ifndef ONLINE_JUDGE
@@ -52,5 +62,5 @@ int main() {
 	F(A, n);
 	int k;
 	cin >> k;
-	cout << largestAfterKnegations(A, k);
+	cout << minKBitFlips(A, k);
 }

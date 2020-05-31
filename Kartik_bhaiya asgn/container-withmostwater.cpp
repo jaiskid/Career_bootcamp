@@ -33,34 +33,40 @@ using namespace std;
 #define PNF1(a,n,m) for(int i=1;i<=n;i++){for(int j=1;j<=m;j++){cout<<a[i][j]<<' ';}cout<<endl;}cout<<endl;
 #define AS 200001
 #define mod 1000000007
-int minSetSize(vector<int>&arr) {
-	unordered_map<int, int>m;
-	priority_queue<int>pq;
-	for (auto n : arr) {
-		++m[n];
+int maxAreann(vector<int>&height) {
+	int maxarea = 0;
+	for (int i = 0; i < height.size(); i++) {
+		for (int j = i + 1; j < height.size(); j++) {
+			maxarea = max(maxarea, min(height[i], height[j]) * (j - i));
+		}
 	}
-	for (auto &p : m) {
-		pq.push(p.second);
+	return maxarea;
+}
+int maxArea(vector<int>&height) {
+	int l = 0, r = height.size() - 1;
+	int maxarea = 0;
+	while (l < r) {
+		maxarea = max(maxarea, min(height[l], height[r]) * (r - l));
+		if (height[l] < height[r]) {
+			l++;
+		}
+		else {
+			r--;
+		}
 	}
-	int res = 0, cnt = 0;
-	while (cnt * 2 < arr.size()) {
-		++res;
-		cnt += pq.top();
-		pq.pop();ṭ
+	return maxarea;
 
-	}
-	return res;
 }
 int main() {
 	fastIO
 #ifndef ONLINE_JUDGE
 	freopen("input.txt", "r", stdin);
-	freopen("output.txt", "w", stdout);ṭ
+	freopen("output.txt", "w", stdout);
 #endif
 	int n;
 	cin >> n;
-	vector<int>arr;
-	arr.resize(n);
-	F(arr, n);
-	cout << minSetSize(arr);
+	vector<int> height;
+	height.resize(n);
+	F(height, n);
+	cout << maxArea(height);
 }

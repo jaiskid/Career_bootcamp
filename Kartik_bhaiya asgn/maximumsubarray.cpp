@@ -33,34 +33,25 @@ using namespace std;
 #define PNF1(a,n,m) for(int i=1;i<=n;i++){for(int j=1;j<=m;j++){cout<<a[i][j]<<' ';}cout<<endl;}cout<<endl;
 #define AS 200001
 #define mod 1000000007
-int minSetSize(vector<int>&arr) {
-	unordered_map<int, int>m;
-	priority_queue<int>pq;
-	for (auto n : arr) {
-		++m[n];
+int maxSubarray(vector<int>&nums) {
+	int curr = INT_MIN;
+	int result = INT_MIN;
+	for (const auto&x : nums) {
+		curr = (curr == INT_MIN) ? x : max(x, x + curr);
+		result = max(curr, result);
 	}
-	for (auto &p : m) {
-		pq.push(p.second);
-	}
-	int res = 0, cnt = 0;
-	while (cnt * 2 < arr.size()) {
-		++res;
-		cnt += pq.top();
-		pq.pop();ṭ
-
-	}
-	return res;
+	return result;
 }
 int main() {
 	fastIO
 #ifndef ONLINE_JUDGE
 	freopen("input.txt", "r", stdin);
-	freopen("output.txt", "w", stdout);ṭ
+	freopen("output.txt", "w", stdout);
 #endif
 	int n;
 	cin >> n;
-	vector<int>arr;
-	arr.resize(n);
-	F(arr, n);
-	cout << minSetSize(arr);
+	vector<int>nums;
+	nums.resize(n);
+	F(nums, n);
+	cout << maxSubarray(nums);
 }

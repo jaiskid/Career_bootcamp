@@ -33,34 +33,65 @@ using namespace std;
 #define PNF1(a,n,m) for(int i=1;i<=n;i++){for(int j=1;j<=m;j++){cout<<a[i][j]<<' ';}cout<<endl;}cout<<endl;
 #define AS 200001
 #define mod 1000000007
-int minSetSize(vector<int>&arr) {
-	unordered_map<int, int>m;
-	priority_queue<int>pq;
-	for (auto n : arr) {
-		++m[n];
+double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2) {
+	int m = nums1.size();
+	int n = nums2.size();
+	if (m > n) {
+		swap(nums1, nums2);
+		swap(m, n);
 	}
-	for (auto &p : m) {
-		pq.push(p.second);
-	}
-	int res = 0, cnt = 0;
-	while (cnt * 2 < arr.size()) {
-		++res;
-		cnt += pq.top();
-		pq.pop();ṭ
+	int imin = 0, imax = m,halflen = (m + n + 1) / 2;
+	while (imin <= imax) {
+		int i = (imin + imax) / 2;
+		int j = halflen - i;
+		if (i < imax and nums2[j - 1] > nums1[i]) {
+			imin = i + 1; // i is too small
+		}
+		else if (i > imin and nums1[i - 1] > nums2[j]) {
+			imax = i - 1; // i is too small
+		}
+		else {
 
+			int maxLeft = 0;
+			if (i == 0) {
+				maxLeft = nums2[j - 1];
+			}
+			else if (j == 0) {
+				maxLeft = nums1[i - 1];
+			}
+			else {
+				maxLeft = max(nums1[i - 1], nums2[j - 1]);
+			}
+			if ((m + n) % 2 == 1) return maxLeft;
+
+
+			int minRight = 0;
+			if (i == m) { minRight = nums2[j]; }
+			else if (j == n) { minRight = nums1[i]; }
+			else { minRight = min(nums2[j], nums1[i]); }
+
+
+			return (maxLeft + minRight) / 2.0;
+
+		}
 	}
-	return res;
+	return 0.0;
 }
 int main() {
 	fastIO
 #ifndef ONLINE_JUDGE
 	freopen("input.txt", "r", stdin);
-	freopen("output.txt", "w", stdout);ṭ
+	freopen("output.txt", "w", stdout);
 #endif
+	int m;
+	cin >> m;
+	vector<int>nums1;
+	nums1.resize(m);
+	F(nums1, m);
 	int n;
 	cin >> n;
-	vector<int>arr;
-	arr.resize(n);
-	F(arr, n);
-	cout << minSetSize(arr);
+	vector<int>nums2;
+	nums2.resize(n);
+	F(nums2, n);
+	cout << findMedianSortedArrays(nums1, nums2);
 }

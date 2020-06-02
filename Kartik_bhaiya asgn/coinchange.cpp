@@ -35,35 +35,68 @@ using namespace std;
 #define mod 1000000007
 ll n;
 vector<int>coins;
-ll amount;
-int coinChange(vector<int>& coins, int amount) {
-	if (amount == 0)
+int amount;
+int coinschange(int i, vector<int>&coins, int amount) {
+	if (amount == 0) {
 		return 0;
-	int res = INT_MAX;
-	for (int i = 0; i < n; i++) {
-		if (coins[i] <= amount) {
-			int sub_res = coinChange(coins, amount - coins[i]);
-			if (sub_res != INT_MAX and sub_res + 1 < res)
-				res = sub_res + 1;
+	}
+	if (i<coins.size() and amount > 0) {
+		int maxVal = amount / coins[i];
+		int minCost = INT_MAX;
+		for (int x = 0; x <= maxVal; x++) {
+			if (amount >= x * coins[i]) {
+				int res = coinschange(i + 1, coins, amount - x * coins[i]);
+				if (res != -1) {
+					minCost = min(minCost, res + x);
+				}
+			}
+		}
+		return (minCost == INT_MAX) ? -1 : minCost;
+	}
+	return -1;
+}
+int dp[100009];
+
+int topcoinchange(vector<int>&coins, int amount) {
+	if (amount < 1) {
+		return 0;
+	}
+	if (amount < 0)
+	{
+		return -1;
+	}
+	if (amount == 0) {
+		return 0;
+	}
+	if (dp[amount - 1] != 0) {
+		return dp[amount - 1];
+	}
+	int min = INT_MAX;
+	for (int coin : coins) {
+		int res = topcoinchange(coins, amount - coin);
+		if (res >= 0 and res < min) {
+			min = 1 + res;
 		}
 	}
-	int ans = -1;
-	return (res == INT_MAX) ? ans : res;
+	dp[amount - 1] = (min == INT_MAX) ? -1 : min;
+	return dp[amount - 1];
 }
-int minCoins(vector<int>&coins, int amount) {
-	vector<int> t(amount + 1, numeric_limits<int>::max());
-	t[0] = 0;
-	
-	for (int i = 0; i <n; i++) {
-		for (int j = 1; j <=amount; j++) {
-			if (coins[i] <= j) {
-				int sub_res = t[j- coins[i]];
-				if (sub_res != INT_MAX and sub_res + 1 < t[j])
-					t[j] = sub_res + 1;
+int coinbottomup(vector<int>&coins, int amount) {
+	long long int max = amount + 1;
+    long long int *dp = new long long int[amount + 1];
+    for(int i=0;i<max;i++){
+    	dp[i]=INT_MAX;
+    }
+    dp[0] = 0;
+	for (int i = 1; i <= amount; i++) {
+		for (int j = 0; j < coins.size(); j++) {
+			if (coins[j] <= i) {
+				dp[i] = min(dp[i], dp[i - coins[j]] + 1);
 			}
 		}
 	}
-	return t[amount] == INT_MAX ? -1 : t[amount];
+	
+	return dp[amount] > amount ? -1 : dp[amount];
 }
 int main() {
 	fastIO
@@ -75,7 +108,11 @@ int main() {
 	coins.resize(n);
 	F(coins, n);
 	cin >> amount;
-	cout << minCoins(coins, amount);
-	cout << endl;
+	memset(dp, 0, sizeof dp);
+	// cout << minCoins(coins, amount);
+	// cout << coinschange(0, coins, amount);
+	// cout << topcoinchange(coins, amount);
+
+	cout << coinbottomup(coins, amount);
 	// cout << INT_MAX << endl;
 }

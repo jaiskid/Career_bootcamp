@@ -66,6 +66,50 @@ int onn() {
 	}
 	return count;
 }
+int sum = 0;
+int recursive(vector<int>&A, int n) {
+	if (n < 2) {
+		return 0;
+
+	}
+	int ap = 0;
+	if (A[n] - A[n - 1] == A[n - 1] - A[n - 2]) {
+		ap = 1 + recursive(A, n - 1);
+		sum += ap;
+	}
+	else {
+		recursive(A, n - 1);
+	}
+	return ap;
+}
+int slicesdp(vector<int>&A) {
+	int n = A.size();
+	vector<int>dp;
+	dp.resize(n, 0);
+	int sum = 0;
+	for (int i = 2; i < n; i++) {
+		if (A[i] - A[i - 1] == A[i - 1] - A[i - 2]) {
+			dp[i] = 1 + dp[i - 1];
+			sum += dp[i];
+		}
+	}
+	return sum;
+}
+int constantspacedp(vector<int>&A) {
+	int dp = 0;
+	int sum = 0;
+	int n = A.size();
+	for (int i = 2; i < n; i++) {
+		if (A[i] - A[i - 1] == A[i - 1] - A[i - 2]) {
+			dp = 1 + dp;
+			sum += dp;
+		}
+		else {
+			dp = 0;
+		}
+	}
+	return sum;
+}
 int main() {
 	fastIO
 #ifndef ONLINE_JUDGE
@@ -77,5 +121,9 @@ int main() {
 	F(A, n);
 	P(A, n);
 	// cout << numberOfArithmeticSlices();
-	cout << onn();
+	// cout << onn();
+	// recursive(A, n - 1);
+	// cout << sum;
+	// cout << slicesdp(A);
+	cout << constantspacedp(A);
 }
